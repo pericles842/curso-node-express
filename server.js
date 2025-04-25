@@ -8,17 +8,21 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src', 'views'));
 
+
 // Middleware para parsear JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
 
-app.get('/', (req, res) => {
-    res.render('home');
+app.get('/prueba', (req, res) => {
+     
+    res.send('vi tu saludo');
+    //res.render('home',{title:'Home'});
 })
 
 const routes = require('./src/routes/routes');
+
 // Importa rutas
 for (const routePath in routes) {
     app.use(routePath, routes[routePath]);

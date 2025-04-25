@@ -1,26 +1,29 @@
 require('dotenv').config();
-const sql = require('mssql');
+const sql = require('mysql2/promise');
 
+// Configuración para MySQL
 const config = {
+    host: process.env.DB_SERVER,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    server: process.env.DB_SERVER,
     database: process.env.DB_DATABASE,
     port: parseInt(process.env.DB_PORT),
-    options: {
-        encrypt: false, 
-        trustServerCertificate: true
-    }
+    // Opciones adicionales si fueran necesarias
+    // ssl: { rejectUnauthorized: true } 
 };
 
-const poolPromise = new sql.ConnectionPool(config)
-    .connect()
-    .then(pool => {
-        console.log('🟢 Conectado a SQL Server');
-        return pool;
+// Crear conexión con MySQL
+const poolPromise = sql.createConnection(config)
+    .then(conn => {
+        console.log('🟢 Conectado a MySQL');
+        return conn;
     })
-    .catch(err => console.error('🔴 Error de conexión a SQL Server:', err));
+    .catch(err => {
+        console.error('🔴 Error de conexión a MySQL:', err.message);
+        process.exit(1); // Salir si falla la conexión
+    });
 
 module.exports = {
-    sql, poolPromise
+    sql,
+    poolPromise
 };
