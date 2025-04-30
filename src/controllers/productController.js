@@ -21,7 +21,7 @@ const ProductController = {
                 return res.status(400).json({ errores: errors.array() });
             }
 
-            const { search } = req.body;
+            let { search } = req.body;
 
             const product = await ProductsModel.searchProduct(search);
             res.status(200).send(product);

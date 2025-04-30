@@ -9,6 +9,7 @@ class ProductsModel {
         try {
             const db = await poolPromise; // Esperamos la conexión
             const [products] = await db.execute('SELECT * FROM producto');
+
             return products;
 
         } catch (error) {
@@ -25,11 +26,10 @@ class ProductsModel {
      */
     static async searchProduct(searchProductClient) {
         try {
-
+            
             const db = await poolPromise; // Esperamos la conexión
             const [[[product]]] = await db.execute('CALL SearchProduct(?)', [searchProductClient]);
             return product;
-
 
         } catch (error) {
             console.error('Error al obtener producto:', error);

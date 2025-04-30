@@ -4,6 +4,16 @@ require('dotenv').config();
 const path = require('path');
 const app = express();
 
+// Configuración de CORS para permitir peticiones desde otros orígenes
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type'); 
+    
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
+
 // Configuración de vistas con EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src', 'views'));
@@ -15,10 +25,8 @@ app.use(express.urlencoded({ extended: false }));
 
 
 
-app.get('/prueba', (req, res) => {
-     
-    res.send('vi tu saludo');
-    //res.render('home',{title:'Home'});
+app.get('/', (req, res) => {
+    res.render('home',{title:'Home'});
 })
 
 const routes = require('./src/routes/routes');
