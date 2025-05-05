@@ -23,7 +23,9 @@ const ProductController = {
 
             let { search } = req.body;
 
-            const product = await ProductsModel.searchProduct(search);
+            const product = await ProductsModel.searchProduct(search)??{};
+         
+            
             res.status(200).send(product);
 
         } catch (error) {
